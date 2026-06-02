@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>GimGame | игры </title>
+  <!-- Подключаем шрифт с футуристичным характером -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(circle at 20% 10%, #1e2a38, #0b1119);
+      min-height: 100vh;
+      font-family: 'Montserrat', sans-serif;
+      color: #d9e2f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* неоновые линии на фоне */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: 
+        repeating-linear-gradient(0deg, rgba(0, 255, 255, 0.03) 0px, rgba(0, 255, 255, 0.03) 2px, transparent 2px, transparent 8px),
+        repeating-linear-gradient(90deg, rgba(0, 180, 255, 0.02) 0px, rgba(0, 180, 255, 0.02) 2px, transparent 2px, transparent 12px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .glass-container {
+      max-width: 1100px;
+      width: 100%;
+      background: rgba(12, 22, 35, 0.7);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: 3.5rem;
+      padding: 2.8rem 2.5rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0, 255, 255, 0.25), 0 0 30px rgba(0, 180, 255, 0.3);
+      border: 1px solid rgba(64, 224, 255, 0.2);
+      position: relative;
+      z-index: 2;
+      transition: all 0.2s ease;
+    }
+
+    /* заголовок с неоновым свечением */
+    .neon-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(3.5rem, 8vw, 5.5rem);
+      font-weight: 900;
+      text-align: center;
+      letter-spacing: 0.3rem;
+      text-transform: uppercase;
+      color: #e0f0ff;
+      text-shadow: 
+        0 0 10px #00b4ff,
+        0 0 25px #0066cc,
+        0 0 50px #003366,
+        0 0 80px #001f4d;
+      margin-bottom: 0.5rem;
+      line-height: 1.1;
+      word-break: break-word;
+    }
+
+    .sub-glow {
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 500;
+      font-size: 1.1rem;
+      letter-spacing: 0.2rem;
+      color: #a0d4ff;
+      text-shadow: 0 0 8px #0088ff;
+      margin-bottom: 2.8rem;
+      text-transform: uppercase;
+      border-bottom: 2px dashed rgba(0, 255, 255, 0.4);
+      padding-bottom: 1.2rem;
+    }
+
+    .games-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.2rem;
+      justify-content: center;
+      margin: 2.5rem 0 2.8rem;
+    }
+
+    .game-card {
+      flex: 1 1 300px;
+      min-width: 260px;
+      background: rgba(20, 35, 50, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 2.5rem;
+      padding: 2rem 1.5rem 1.8rem;
+      border: 1px solid rgba(0, 255, 255, 0.25);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 160, 255, 0.3);
+      transition: transform 0.25s ease, box-shadow 0.3s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      color: #cfdefa;
+    }
+
+    .game-card:hover {
+      transform: translateY(-8px);
+      border-color: #00ffff;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.8), 0 0 45px #00a6ff;
+    }
+
+    .game-badge {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: rgba(0, 200, 255, 0.15);
+      padding: 0.35rem 1rem;
+      border-radius: 3rem;
+      display: inline-block;
+      align-self: flex-start;
+      margin-bottom: 1.2rem;
+      color: #7df9ff;
+      letter-spacing: 0.1rem;
+      border: 1px solid #00e5ff;
+      text-shadow: 0 0 6px cyan;
+      backdrop-filter: blur(4px);
+    }
+
+    .game-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: white;
+      text-shadow: 0 0 15px #0099ff;
+      letter-spacing: 0.05rem;
+    }
+
+    .game-desc {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.6rem;
+      color: #cbd5e8;
+      flex: 1;
+    }
+
+    .version-tag {
+      font-weight: bold;
+      color: #7ff0ff;
+      background: rgba(0, 150, 255, 0.2);
+      padding: 0.15rem 0.7rem;
+      border-radius: 1rem;
+      font-size: 0.8rem;
+      margin-left: 0.3rem;
+    }
+
+    .play-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 20, 40, 0.7);
+      border: 1.5px solid #0cf;
+      color: #d6f0ff;
+      font-weight: 600;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.15rem;
+      padding: 0.9rem 1.2rem;
+      border-radius: 3rem;
+      text-decoration: none;
+      transition: 0.25s;
+      backdrop-filter: blur(10px);
+      margin-top: 0.6rem;
+      font-size: 0.9rem;
+      box-shadow: 0 0 15px rgba(0, 180, 255, 0.4);
+      text-align: center;
+      word-break: break-word;
+    }
+
+    .play-link:hover {
+      background: #00a6ff;
+      border-color: #ffffff;
+      color: #010a15;
+      font-weight: 700;
+      box-shadow: 0 0 40px #00ccff, 0 0 20px #006eff;
+      text-shadow: none;
+      transform: scale(1.02);
+    }
+
+    .dev-section {
+      margin-top: 2.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      border-top: 1px solid rgba(0, 255, 255, 0.3);
+      padding-top: 2.2rem;
+    }
+
+    .dev-link {
+      background: transparent;
+      border: 2px solid #3cc5ff;
+      color: #d0ecff;
+      padding: 0.9rem 2.3rem;
+      border-radius: 3rem;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.15rem;
+      text-decoration: none;
+      backdrop-filter: blur(12px);
+      background: rgba(10, 30, 50, 0.6);
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      box-shadow: 0 0 18px rgba(0, 160, 255, 0.4);
+      text-transform: uppercase;
+    }
+
+    .dev-link:hover {
+      background: #0af;
+      border-color: #ffffff;
+      color: #000c1a;
+      box-shadow: 0 0 45px #0af;
+      font-weight: 700;
+    }
+
+    .dev-note {
+      color: #98c1ff;
+      font-size: 0.9rem;
+      margin-left: 0.5rem;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 0.05rem;
+    }
+
+    @media (max-width: 650px) {
+      .glass-container {
+        padding: 1.8rem 1.2rem;
+        border-radius: 2.2rem;
+      }
+      .game-card {
+        padding: 1.6rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-container">
+    <h1 class="neon-title">GimGame</h1>
+    <div class="sub-glow">✦ неоновый каталог разработок ✦</div>
+
+    <div class="games-grid">
+      <!-- Карточка 1: Пограничник -->
+      <div class="game-card">
+        <span class="game-badge"> BETA V.1.0</span>
+        <div class="game-title">Граница</div>
+        <div class="game-desc">
+          <strong>Ты — пограничник в РФ.</strong><br>
+          Допускаешь людей к выезду за границу. Сюжет маленький, но напряжённый: 
+          среди обычных граждан могут скрываться опасные убийцы. 
+          <span style="color:#7ff0ff;">Можно взять взятку</span>, но есть шанс 25% получить штраф из-за палева. 
+          Риск и моральный выбор.
+        </div>
+        <a href="https://dimastwa0sopsi.github.io/gameee/" target="_blank" rel="noopener noreferrer" class="play-link">
+          ▶ ИГРАТЬ (ПОГРАНИЧНИК)
+        </a>
+      </div>
+
+      <!-- Карточка 2: Песочница Minecraft-стиль -->
+      <div class="game-card">
+        <span class="game-badge"> ПК (песочница)</span>
+        <div class="game-title">Блочный мир</div>
+        <div class="game-desc">
+          <strong>Песочница в стиле Minecraft.</strong><br>
+          Только для компьютера. Свободное исследование мира, 
+          можно бродить, строить дом и жить своей жизнью. 
+          Всё в руках игрока — создавайте свои правила.
+        </div>
+        <a href="https://dimastwa0sopsi.github.io/game/" target="_blank" rel="noopener noreferrer" class="play-link">
+          ▶ ИГРАТЬ (ПЕСОЧНИЦА)
+        </a>
+      </div>
+    </div>
+
+    <!-- Блок разработчика -->
+    <div class="dev-section">
+      <a href="https://dimastwa0sopsi.github.io/GimProgramsWeb/" target="_blank" rel="noopener noreferrer" class="dev-link">
+        <span>🛠️</span> GIM PROGRAMS <span style="font-size:0.8rem; margin-left:0.3rem;">&#8599;</span>
+      </a>
+      <span class="dev-note">— компания разработчика</span>
+    </div>
+
+    <!-- Тонкая подпись -->
+    <div style="text-align: center; margin-top: 1.6rem; font-size: 0.75rem; color: #5f7d9c; letter-spacing: 0.1rem;">
+      <span style="color:#0cf;">GimGame</span> © t/me/GimPrograms Telegram канал
+    </div>
+  </div>
+</body>
+</html>
