@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="GimGame — неоновый каталог игр от Gim Programs: гонки, песочницы, симуляторы.">
+<title>GimGame — каталог игр</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-1: #1e2a38;
+    --bg-2: #080f17;
+    --surface: rgba(12, 22, 35, 0.75);
+    --card: rgba(20, 35, 50, 0.7);
+    --card-hover: rgba(28, 48, 68, 0.85);
+    --text: #d9e2f0;
+    --text-dim: #cbd5e8;
+    --text-muted: #98c1ff;
+    --accent: #00b4ff;
+    --accent-bright: #0cf;
+    --accent-soft: #7df9ff;
+    --border: rgba(64, 224, 255, 0.25);
+    --border-strong: rgba(0, 255, 255, 0.4);
+    --radius-lg: 2.4rem;
+    --radius-md: 1.6rem;
+    --radius-pill: 3rem;
+    --shadow-card: 0 15px 30px rgba(0,0,0,.6), 0 0 25px rgba(0,160,255,.25);
+    --shadow-card-hover: 0 25px 45px rgba(0,0,0,.8), 0 0 45px #00a6ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+  body {
+    background: radial-gradient(circle at 30% 20%, var(--bg-1), var(--bg-2));
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    overflow-x: hidden;
+    line-height: 1.5;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,255,255,.03) 0 2px, transparent 2px 8px),
+      repeating-linear-gradient(90deg, rgba(0,180,255,.02) 0 2px, transparent 2px 12px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glass-container {
+    max-width: 1100px;
+    width: 100%;
+    background: var(--surface);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    padding: 2.2rem 1.8rem;
+    box-shadow: 0 20px 50px rgba(0,0,0,.7), 0 0 0 1px rgba(0,255,255,.3), 0 0 30px rgba(0,180,255,.35);
+    border: 1px solid var(--border);
+    position: relative;
+    z-index: 2;
+    margin: 0 auto;
+  }
+
+  .neon-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(2.4rem, 9vw, 5rem);
+    font-weight: 900;
+    text-align: center;
+    letter-spacing: .18rem;
+    text-transform: uppercase;
+    color: #e0f0ff;
+    text-shadow:
+      0 0 10px #00b4ff,
+      0 0 25px #0066cc,
+      0 0 45px #003366,
+      0 0 70px #001f4d;
+    margin-bottom: .4rem;
+    line-height: 1.1;
+    word-break: break-word;
+  }
+
+  .sub-glow {
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 500;
+    font-size: clamp(.75rem, 2.4vw, 1rem);
+    letter-spacing: .2rem;
+    color: #a0d4ff;
+    text-shadow: 0 0 8px #0088ff;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    border-bottom: 2px dashed var(--border-strong);
+    padding-bottom: 1rem;
+  }
+
+  .games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.6rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .game-card {
+    background: var(--card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: var(--radius-md);
+    padding: 1.7rem 1.4rem 1.4rem;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-card);
+    transition: transform .25s ease, box-shadow .3s ease, border-color .2s ease, background .3s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: #cfdefa;
+    animation: fadeUp .5s ease both;
+  }
+
+  .game-card:hover,
+  .game-card:focus-within {
+    transform: translateY(-6px);
+    border-color: var(--accent-bright);
+    box-shadow: var(--shadow-card-hover);
+    background: var(--card-hover);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .game-badge {
+    font-family: 'Orbitron', sans-serif;
+    font-size: .7rem;
+    font-weight: 700;
+    background: rgba(0,200,255,.15);
+    padding: .3rem .85rem;
+    border-radius: var(--radius-pill);
+    display: inline-block;
+    align-self: flex-start;
+    margin-bottom: 1rem;
+    color: var(--accent-soft);
+    letter-spacing: .08rem;
+    border: 1px solid #00e5ff;
+    text-shadow: 0 0 6px cyan;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .game-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.35rem, 4vw, 1.7rem);
+    font-weight: 700;
+    margin-bottom: .7rem;
+    color: #fff;
+    text-shadow: 0 0 15px #0099ff;
+    letter-spacing: .03rem;
+  }
+
+  .game-desc {
+    font-size: .9rem;
+    line-height: 1.55;
+    margin-bottom: 1.3rem;
+    color: var(--text-dim);
+    flex: 1;
+    word-break: break-word;
+  }
+
+  .game-desc strong { color: #eaf3ff; }
+
+  .game-desc .accent { color: var(--accent-soft); }
+
+  .play-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,20,40,.75);
+    border: 1.5px solid var(--accent-bright);
+    color: #d6f0ff;
+    font-weight: 600;
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .12rem;
+    padding: .85rem .8rem;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    transition: all .25s ease;
+    font-size: .82rem;
+    box-shadow: 0 0 15px rgba(0,180,255,.4);
+    text-align: center;
+    line-height: 1.3;
+    margin-top: auto;
+  }
+
+  .play-link:hover,
+  .play-link:focus-visible {
+    background: #00a6ff;
+    border-color: #fff;
+    color: #010a15;
+    font-weight: 700;
+    box-shadow: 0 0 40px #00ccff, 0 0 20px #006eff;
+    transform: scale(1.02);
+    outline: none;
+  }
+
+  .dev-section {
+    margin-top: 1.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    border-top: 1px solid var(--border-strong);
+    padding-top: 1.6rem;
+  }
+
+  .dev-link {
+    border: 2px solid #3cc5ff;
+    color: #d0ecff;
+    padding: .8rem 1.6rem;
+    border-radius: var(--radius-pill);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 600;
+    letter-spacing: .12rem;
+    text-decoration: none;
+    background: rgba(10,30,50,.65);
+    transition: all .3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    font-size: .88rem;
+    box-shadow: 0 0 18px rgba(0,160,255,.5);
+    text-transform: uppercase;
+    text-align: center;
+    flex-wrap: wrap;
+  }
+
+  .dev-link:hover,
+  .dev-link:focus-visible {
+    background: #0af;
+    border-color: #fff;
+    color: #000c1a;
+    box-shadow: 0 0 45px #0af;
+    font-weight: 700;
+    outline: none;
+  }
+
+  .dev-note {
+    color: var(--text-muted);
+    font-size: .85rem;
+    letter-spacing: .04rem;
+    text-align: center;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 1.4rem;
+    font-size: .72rem;
+    color: #5f7d9c;
+    letter-spacing: .08rem;
+  }
+
+  footer a {
+    color: var(--accent-bright);
+    text-decoration: none;
+  }
+
+  footer a:hover { text-decoration: underline; }
+
+  :focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 3px; border-radius: 6px; }
+
+  @media (max-width: 600px) {
+    body { padding: .6rem; padding-top: 1.2rem; align-items: flex-start; }
+    .glass-container { padding: 1.5rem 1rem; border-radius: 1.8rem; }
+    .games-grid { gap: 1.1rem; margin: 1.3rem 0; }
+    .game-card { padding: 1.3rem 1rem 1.2rem; border-radius: 1.4rem; }
+    .dev-section { flex-direction: column; gap: .8rem; padding-top: 1.3rem; }
+    .dev-link { width: 100%; }
+    .play-link { font-size: .78rem; padding: .8rem .5rem; }
+  }
+
+  @media (max-width: 380px) {
+    .neon-title { font-size: 2.1rem; letter-spacing: .08rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+  <div class="glass-container">
+    <header>
+      <h1 class="neon-title">GimGame</h1>
+      <p class="sub-glow">✦ неоновый каталог ✦</p>
+    </header>
+
+    <main>
+      <section class="games-grid" aria-label="Каталог игр">
+
+        <article class="game-card">
+          <span class="game-badge">Открытие!</span>
+          <h2 class="game-title">Gramgor</h2>
+          <p class="game-desc">
+            <strong>ПРОСТО САДИСЬ И ЕДЬ!</strong><br>
+            Город ждёт — исследуй на свободе. Будь готов к поломкам: детали могут отвалиться, а двигатель — сломаться. Большой город живёт по твоим правилам. Свобода, скорость, поломки — всё по-настоящему. <span class="accent">Отвал деталей — это реально!</span>
+          </p>
+          <a href="https://dimastwa0sopsi.github.io/Gramgor/" target="_blank" rel="noopener noreferrer" class="play-link">Играть</a>
+        </article>
+
+        <article class="game-card">
+          <span class="game-badge">Beta v.1.0</span>
+          <h2 class="game-title">Граница</h2>
+          <p class="game-desc">
+            <strong>Ты — пограничник в РФ.</strong><br>
+            Допускаешь людей к выезду за границу. Маленький, но напряжённый сюжет: среди граждан могут скрываться убийцы. <span class="accent">Можно взять взятку</span>, но шанс 25% получить штраф из-за палева.
+          </p>
+          <a href="https://dimastwa0sopsi.github.io/gameee/" target="_blank" rel="noopener noreferrer" class="play-link">▶ Играть</a>
+        </article>
+
+        <article class="game-card">
+          <span class="game-badge">ПК · песочница</span>
+          <h2 class="game-title">Блочный мир</h2>
+          <p class="game-desc">
+            <strong>Песочница в стиле Minecraft.</strong><br>
+            Только для компьютера. Свободное исследование: можно бродить, строить дом и жить. Всё в руках игрока.
+          </p>
+          <a href="https://dimastwa0sopsi.github.io/game/" target="_blank" rel="noopener noreferrer" class="play-link">▶ Играть</a>
+        </article>
+
+        <article class="game-card">
+          <span class="game-badge">Новая версия</span>
+          <h2 class="game-title">GimBuilder</h2>
+          <p class="game-desc">
+            <strong>СОЗДАЙ СВОЙ МИР!</strong><br>
+            Собственный редактор карт в духе Roblox Studio. Создавай и редактируй игровые карты, экспортируй их в JSON и загружай обратно из файлов. Твоя карта — твои правила!
+          </p>
+          <a href="https://dimastwa0sopsi.github.io/Gim-Builder/" target="_blank" rel="noopener noreferrer" class="play-link">▶ Играть</a>
+        </article>
+
+        <article class="game-card">
+          <span class="game-badge">Новинка</span>
+          <h2 class="game-title">DayDiabet</h2>
+          <p class="game-desc">
+            <strong>СОЗДАНО ДЛЯ ДИАБЕТИКОВ ❤</strong><br>
+            Сделано с ❤ для тех, кто столкнулся с неизлечимой (пока что) болезнью. Авторизация через Telegram, запись сахаров, приёмов пищи и другое. Разработчик тоже диабетик.
+          </p>
+          <a href="https://dimastwa0sopsi.github.io/DayDiabet/" target="_blank" rel="noopener noreferrer" class="play-link">Скачать</a>
+        </article>
+
+      </section>
+    </main>
+
+    <footer>
+      <div class="dev-section">
+        <a href="https://dimastwa0sopsi.github.io/GimProgramsWeb/" target="_blank" rel="noopener noreferrer" class="dev-link">
+          Gim Programs <span aria-hidden="true">↗</span>
+        </a>
+        <span class="dev-note">— компания разработчика</span>
+      </div>
+      <p style="margin-top: 1.2rem;">
+        <a href="https://t.me/GimPrograms" target="_blank" rel="noopener noreferrer">GimGame</a> © Gim Programs
+      </p>
+    </footer>
+  </div>
+</body>
+  </html>
